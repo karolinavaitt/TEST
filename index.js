@@ -41,17 +41,17 @@ const checkBirthID = (cislo) => {
 // rodnaCislaKOtestovani.forEach(checkBirthID);
 console.log(checkBirthID("8058281495"));
 
-// const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-// const isDigit = (number) => {
-//   if (number.length === 1) {
-//     if (digits.includes(number)) {
-//       return true;
-//     }
-//     return false;
-//   }
-//   return false;
-// };
+const isDigit = (number) => {
+  if (number.length === 1) {
+    if (digits.includes(number)) {
+      return true;
+    }
+    return false;
+  }
+  return false;
+};
 
 // console.log(isDigit("5"));
 
@@ -66,31 +66,48 @@ console.log(checkBirthID("8058281495"));
 
 // console.log(logInvalidCharacters("7060201236"));
 
-// const validateCharacters = (string) => {
-//  const result = [];
-//   const array = Array.from(string);
-//   array.forEach((item) => {
-//     const object = `{char: ${item}, digit: ${isDigit(item)}}`;
-//     result.push(object);
-//   });
-//   return result;
-// };
+const validateCharacters = (string) => {
+  const result = [];
+  const array = Array.from(string);
+  array.forEach((item) => {
+    const object = `{char: ${item}, digit: ${isDigit(item)}}`;
+    result.push(object);
+  });
+  return result;
+};
 
 // validateCharacters("8554č389tz");
 // console.log(result);
 
 const formElm = document.querySelector("#form");
 const rodneCisloInput = document.querySelector("#cislo");
-const rodneCislo = rodneCisloInput.value;
 const msgElm = document.querySelector("#message");
 
 const tlacitko = (event) => {
+  const rodneCislo = rodneCisloInput.value;
+  const cifryElm = document.querySelector("#cifry");
   event.preventDefault();
+  const string = Array.from(rodneCislo);
 
   if (checkBirthID(rodneCislo) === "OK") {
     msgElm.textContent = "V Pořádku";
+
+    cifryElm.innerHTML = "";
+    string.forEach((znak) => {
+      cifryElm.innerHTML += `<div class="valid">${znak}<div>`;
+    });
   } else {
     msgElm.textContent = "❌ V rodném čísle jsou chyby.";
+
+    cifryElm.innerHTML = "";
+    string.forEach((znak) => {
+      //const cifryElm = document.querySelector("#cifry");
+      if (isDigit(znak) === true) {
+        cifryElm.innerHTML += `<div class="valid">${znak}<div>`;
+      } else {
+        cifryElm.innerHTML += `<div class="invalid">${znak}<div>`;
+      }
+    });
   }
 };
 
